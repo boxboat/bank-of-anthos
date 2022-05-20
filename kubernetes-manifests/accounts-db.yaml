@@ -37,6 +37,11 @@ spec:
       containers:
       - name: accounts-db
         image: gcr.io/bank-of-anthos-ci/accounts-db:v0.5.4
+        env:
+          - name: ENABLE_METRICS
+            value: "false"
+          - name: ENABLE_TRACING
+            value: "false"
         envFrom:
           - configMapRef:
               name: environment-config
