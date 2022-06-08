@@ -42,20 +42,20 @@ env:
   DEPLOYMENT_MANIFEST_PATH: "../../kubernetes-manifests"
 
 jobs:
-  buildImage:
-    permissions:
-      contents: read
-      id-token: write
-    runs-on: ubuntu-latest
-    steps:
-    # Checks out the repository this file is in
-    - uses: actions/checkout@v3
+  # buildImage:
+  #   permissions:
+  #     contents: read
+  #     id-token: write
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   # Checks out the repository this file is in
+  #   - uses: actions/checkout@v3
     
-    # Logs in with your Azure credentials
-    - name: Azure login
-      uses: azure/login@v1
-      with:
-        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+  #   # Logs in with your Azure credentials
+  #   - name: Azure login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: '${{ secrets.AZURE_CREDENTIALS }}'
       
     # Builds and pushes an image up to your Azure Container Registry
     # - name: Build and push image to ACR
