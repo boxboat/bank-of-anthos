@@ -131,7 +131,7 @@ jobs:
       with:
         action: deploy
         manifests: | 
-          ../../extras/jwt/jwt-secret.yaml
+          extras/jwt/jwt-secret.yaml
           ${{ env.DEPLOYMENT_MANIFEST_PATH }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
