@@ -110,7 +110,7 @@ jobs:
     # needs: [buildImage, createSecret]
     steps:
     # Checks out the repository this file is in
-    # - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
     
     # Logs in with your Azure credentials
     - name: Azure login
@@ -133,7 +133,7 @@ jobs:
       with:
         action: deploy
         manifests: | 
-          alisaazimova/bank-of-anthosextras/jwt/jwt-secret.yaml
+          extras/jwt/jwt-secret.yaml
           ${{ env.DEPLOYMENT_MANIFEST_PATH }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
