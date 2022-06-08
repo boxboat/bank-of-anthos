@@ -3,11 +3,11 @@ kind: Ingress
 metadata:
   name: minimal-ingress
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    # kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /
     # cert-manager.io/cluster-issuer: letsencrypt-pro
 spec:
-  # ingressClassName: nginx
+  ingressClassName: nginx
   # tls:
   # - hosts:
   #     - 52.186.163.22.nip.io
