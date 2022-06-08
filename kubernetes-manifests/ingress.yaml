@@ -14,7 +14,7 @@ metadata:
 #     secretName: testsecret-tls
   rules:
   # - host: https-example.foo.com
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
