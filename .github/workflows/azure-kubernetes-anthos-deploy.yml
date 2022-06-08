@@ -39,7 +39,7 @@ env:
   RESOURCE_GROUP: "demo-project-group"
   CLUSTER_NAME: "demo-project"
   IMAGE_PULL_SECRET_NAME: "anthosdemopullsecret"
-  DEPLOYMENT_MANIFEST_PATH: "../../kubernetes-manifests"
+  DEPLOYMENT_MANIFEST_PATH: "kubernetes-manifests"
 
 jobs:
   buildImage:
