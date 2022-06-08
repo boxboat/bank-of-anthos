@@ -14,7 +14,7 @@ spec:
   #   secretName: testsecret-tls
   rules:
   - host: 52.186.163.22.nip.io
-  - http:
+    http:
       paths:
       - path: /
         pathType: Prefix
