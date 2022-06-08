@@ -58,9 +58,9 @@ jobs:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
       
     # Builds and pushes an image up to your Azure Container Registry
-    - name: Build and push image to ACR
-      run: |
-        az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
+    # - name: Build and push image to ACR
+    #   run: |
+    #     az acr build --image ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }} --registry ${{ env.AZURE_CONTAINER_REGISTRY }} -g ${{ env.RESOURCE_GROUP }} .
 
   createSecret:
     permissions:
@@ -133,7 +133,7 @@ jobs:
         manifests: | 
           ../../extras/jwt/jwt-secret.yaml
           ${{ env.DEPLOYMENT_MANIFEST_PATH }}
-        images: |
-          ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-        imagepullsecrets: |
-          ${{ env.IMAGE_PULL_SECRET_NAME }}
+        # images: |
+        #   ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
+        # imagepullsecrets: |
+        #   ${{ env.IMAGE_PULL_SECRET_NAME }}
