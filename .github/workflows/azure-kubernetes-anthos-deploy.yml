@@ -124,6 +124,8 @@ jobs:
       with:
         resource-group: ${{ env.RESOURCE_GROUP }}
         cluster-name: ${{ env.CLUSTER_NAME }}
+    - shell: bash
+        run: pwd
 
     # Deploys application based on given manifest filee
     - name: Deploys application
@@ -131,7 +133,7 @@ jobs:
       with:
         action: deploy
         manifests: | 
-          extras/jwt/jwt-secret.yaml
+          alisaazimova/bank-of-anthosextras/jwt/jwt-secret.yaml
           ${{ env.DEPLOYMENT_MANIFEST_PATH }}
         images: |
           ${{ env.AZURE_CONTAINER_REGISTRY }}.azurecr.io/${{ env.CONTAINER_NAME }}:${{ github.sha }}
