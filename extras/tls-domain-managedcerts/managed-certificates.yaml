@@ -13,8 +13,13 @@
 # limitations under the License.
 
 # [START gke_tls_domain_managedcerts_managed_certificates_managedcertificate_bank_ssl_certificate]
-
-    -  20.231.115.78.nip.io # repace me with DNS name mapped to bank-address
+apiVersion: networking.gke.io/v1beta1
+kind: ManagedCertificate
+metadata:
+  name: bank-ssl-certificate
+spec:
+  domains:
+    - bank-of-anthos.xyz  # repace me with DNS name mapped to bank-address
 # [END gke_tls_domain_managedcerts_managed_certificates_managedcertificate_bank_ssl_certificate]
 ---
 # [START gke_tls_domain_managedcerts_managed_certificates_service_frontend_nodeport]
@@ -33,21 +38,16 @@ spec:
 # [END gke_tls_domain_managedcerts_managed_certificates_service_frontend_nodeport]
 ---
 # [START gke_tls_domain_managedcerts_managed_certificates_ingress_frontend_ingress]
-apiVersion: extensions/v1
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: frontend-ingress
-  annotations:  # create me with `gcloud compute addresses create bank-address --global`
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: bank-address # create me with `gcloud compute addresses create bank-address --global`
+    networking.gke.io/managed-certificates: bank-ssl-certificate
     kubernetes.io/ingress.allow-http: "false"
 spec:
-  tls:
-    secretName: helloworld-tls
-      hosts:
-      - 34.68.142.38.nip.io
-
   backend:
-    service:
-      name: frontend-nodeport
-      port:
-       number: 8080
+    serviceName: frontend-nodeport
+    servicePort: 8080
 # [END gke_tls_domain_managedcerts_managed_certificates_ingress_frontend_ingress]
