@@ -10,10 +10,21 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-      - 20.88.191.120.nip.io
+      - 52.152.197.60.nip.io
+      - stage.52.152.197.60.nip.io
     secretName: testsecret-tls
   rules:
-  - host: 20.88.191.120.nip.io
+  - host: stage.52.152.197.60.nip.io  
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: frontend
+            port:
+              number: 80
+  - host: 52.152.197.60.nip.io  
     http:
       paths:
       - path: /
