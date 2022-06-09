@@ -30,15 +30,16 @@ name: Build and deploy an app to AKS
 on:
   push:
     branches:
-      - "main"
+      - stage
+      - main
   workflow_dispatch:
 
 env:
-  AZURE_CONTAINER_REGISTRY: "demoprojectanthos.azurecr.io"
-  CONTAINER_NAME: "bankofanthos"
+  # AZURE_CONTAINER_REGISTRY: "demoprojectanthos.azurecr.io"
+  # CONTAINER_NAME: "bankofanthos"
   RESOURCE_GROUP: "demo-project-group"
-  CLUSTER_NAME: "demo-project"
-  IMAGE_PULL_SECRET_NAME: "anthosdemopullsecret"
+  CLUSTER_NAME: "demo-group-project"
+  # IMAGE_PULL_SECRET_NAME: "anthosdemopullsecret"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes-manifests"
 
 jobs:
@@ -100,13 +101,51 @@ jobs:
   #       container-registry-username: ${{ steps.get-acr-creds.outputs.username }}
   #       container-registry-password: ${{ steps.get-acr-creds.outputs.password }}
   #       secret-name: ${{ env.IMAGE_PULL_SECRET_NAME }}  
-
-  deploy:
+  
+  DeployStaging:
+    name: Deploy to Staging 
+    if: github.event.ref == 'refs/heads/stage'
     permissions:
       actions: read
       contents: read
       id-token: write
     runs-on: ubuntu-latest
+    environment: stage
+    # needs: [buildImage, createSecret]
+    steps:
+    # Checks out the repository this file is in
+    - uses: actions/checkout@v3
+    
+    # Logs in with your Azure credentials
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      
+    # Retrieves your Azure Kubernetes Service cluster's kubeconfig file
+    - name: Get K8s context
+      uses: azure/aks-set-context@v2.0
+      with:
+        resource-group: ${{ env.RESOURCE_GROUP }}
+        cluster-name: ${{ env.CLUSTER_NAME }}
+
+    # Deploys application based on given manifest file
+    - name: Deploys application
+      uses: Azure/k8s-deploy@v3.1
+      with:
+        namespace: "stage"
+        action: deploy
+        manifests: | 
+          extras/jwt/jwt-secret.yaml
+          ${{ env.DEPLOYMENT_MANIFEST_PATH }}
+
+  DeployProduction:
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+    runs-on: ubuntu-latest
+    environment: production
     # needs: [buildImage, createSecret]
     steps:
     # Checks out the repository this file is in
